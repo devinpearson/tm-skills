@@ -52,6 +52,7 @@ Distinguished count stays 0 until April.
 - **District** (required). Ask if missing.
 - **Fiscal year** (optional, `YYYY-YYYY`). Default is the current one.
 - **Presenter** (optional). Without it, put "[Program Quality Director name]" on the cover.
+- **District Success Plan and budget** (optional documents). See below.
 - **Format** (optional). Default: deck only.
 
 ## Ask the presenter
@@ -66,8 +67,42 @@ on the "Training, contests and conference" slide and in the year strip's Next co
 3. Speech contests: which contests run this year, and the area, division and district dates.
 4. District conference: date, venue and where planning stands.
 5. Education focus: recognition plans and how clubs are being helped to earn awards.
+6. District Success Plan and approved budget: attach them if you have them (optional).
 
 If nobody can answer (a scheduled run), build with placeholders and say so.
+
+## District Success Plan and budget (optional documents)
+
+The user may attach the district's **District Success Plan** and its **approved budget** (usually
+PDFs). Both are optional: without them, build the report from the dashboard as usual and leave
+their slides out. They may be confidential, so use their figures only in the report you build:
+never write them, or the documents, into a repository, a skill or shared memory.
+
+From the **District Success Plan**:
+
+- Use its official starting numbers (club base, membership payments base) and its targets for
+  each level instead of computing them from the dashboard. If they differ (for example, the
+  dashboard's club base counts a placeholder division), use the plan's and say why in the notes.
+- Use last year's closing figures from the plan as context (paid clubs, payments, Distinguished
+  clubs by level).
+- Take the presenter's name and role from its team list when the user hasn't given one.
+- For each action the plan gives this role (or a goal it owns), show the owner and end date from
+  the plan and, beside it, where the dashboard puts it today. For the Program Quality Director, that is the Distinguished clubs goal: the plan's club pipeline (if it classifies clubs, map the potentially Distinguished clubs and the clubs one or two steps away onto its classes), officer training, club visits and education.
+- Flag anything in the plan that doesn't add up as "check": a name spelled two ways, blank
+  monthly milestones, a qualifying form with zero leaders. Don't correct the plan.
+
+From the **budget**:
+
+- Check its fiscal year. If it isn't the report's year, label every figure with its year and ask
+  the user for the current approved budget.
+- Show the lines this role spends: education and training, recognition, speech contests and the district conference. Give each line's amount, its share of the
+  membership dues allocation and the policy limit the budget states. Compute only those shares.
+- Spend to date isn't in the budget or the dashboard: show "[From the Finance Manager]".
+- Note any phasing the budget gives (months a line is spent in) where it affects what to do now.
+
+With these documents, add two slides before the presenter's-answers slide: "Success Plan | Distinguished clubs actions" (action, owner, by, dashboard now) and
+"Budget | education, recognition and contests" (line, amount, share of dues, policy, spent to date). Pre-fill the presenter's answers with what the documents already say (owners,
+budgeted amounts) and keep "[bracketed]" for what they don't.
 
 ## 1. Gather the data
 
@@ -137,7 +172,8 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
 ## 3. Build the deck
 
 Start from the Artifact **Slides** type, 16:9, titled "District <n> program quality – <Month
-YYYY>", in the report style below. Twelve slides, no closing "Questions?":
+YYYY>", in the report style below. Twelve slides (fourteen with the Success Plan and budget
+slides), no closing "Questions?":
 
 1. **Cover**: eyebrow "DISTRICT <n> · PROGRAM QUALITY", title "Program Quality Report", subtitle
    "Prepared for the Program Quality Director", presenter, "Programme year · fiscal month m of 12

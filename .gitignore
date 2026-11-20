@@ -1,3 +1,5 @@
 dist/
 node_modules/
 .DS_Store
+# District documents (success plans, budgets) used as report inputs stay out of the repo
+*.pdf

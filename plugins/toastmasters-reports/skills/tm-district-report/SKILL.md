@@ -53,6 +53,7 @@ last year's payments; targets round up.
 - **Membership payments** (optional): year-to-date payments and the payments base from the
   Toastmasters District Performance report. Without them, use members against the member base
   and label it "proxy".
+- **District Success Plan and budget** (optional documents). See below.
 - **Format** (optional). Default: the slide deck only. Make the web page as well only if the user
   asks for one.
 
@@ -70,8 +71,42 @@ on the "District Success Plan and operations" slide and in the year strip.
 5. Team: any district roles vacant, or leaders who need support?
 6. Membership payments: year-to-date payments and the payments base from the District
    Performance report (otherwise the report uses paid members as a proxy).
+7. District Success Plan and approved budget: attach them if you have them (optional).
 
 If nobody can answer (a scheduled run), build with placeholders and say so.
+
+## District Success Plan and budget (optional documents)
+
+The user may attach the district's **District Success Plan** and its **approved budget** (usually
+PDFs). Both are optional: without them, build the report from the dashboard as usual and leave
+their slides out. They may be confidential, so use their figures only in the report you build:
+never write them, or the documents, into a repository, a skill or shared memory.
+
+From the **District Success Plan**:
+
+- Use its official starting numbers (club base, membership payments base) and its targets for
+  each level instead of computing them from the dashboard. If they differ (for example, the
+  dashboard's club base counts a placeholder division), use the plan's and say why in the notes.
+- Use last year's closing figures from the plan as context (paid clubs, payments, Distinguished
+  clubs by level).
+- Take the presenter's name and role from its team list when the user hasn't given one.
+- For each action the plan gives this role (or a goal it owns), show the owner and end date from
+  the plan and, beside it, where the dashboard puts it today. For the District Director, that is all three goals and the qualifying requirements.
+- Flag anything in the plan that doesn't add up as "check": a name spelled two ways, blank
+  monthly milestones, a qualifying form with zero leaders. Don't correct the plan.
+
+From the **budget**:
+
+- Check its fiscal year. If it isn't the report's year, label every figure with its year and ask
+  the user for the current approved budget.
+- Show the lines this role spends: every spend line, grouped by the team member who owns it, with the plan's net surplus or deficit and how much of revenue the membership dues make up. Give each line's amount, its share of the
+  membership dues allocation and the policy limit the budget states. Compute only those shares.
+- Spend to date isn't in the budget or the dashboard: show "[From the Finance Manager]".
+- Note any phasing the budget gives (months a line is spent in) where it affects what to do now.
+
+With these documents, add two slides before the presenter's-answers slide: "District Success Plan | goals and owners" (one row per goal: target from the first level to the top level, now, lead actions with owners and dates; plus the qualifying requirements) and
+"Budget | where the money goes" (spend lines by owner, share of dues, policy limit, and a "District signal:" on the surplus and on how far revenue depends on membership payments). Pre-fill the presenter's answers with what the documents already say (owners,
+budgeted amounts) and keep "[bracketed]" for what they don't.
 
 ## 1. Gather the data
 
@@ -144,7 +179,8 @@ Lead with what the District Director must act on, and who on the team owns it.
 ### Slide deck
 
 Start from the Artifact **Slides** type, 16:9, titled "District <N> update – <Month YYYY>", in the
-report style below. Eleven slides, no closing "Questions?" slide:
+report style below. Eleven slides (thirteen with the Success Plan and budget slides), no
+closing "Questions?" slide:
 
 1. **Cover**: eyebrow "DISTRICT <n> · DISTRICT DIRECTOR", title "District <n> Report", subtitle
    "Prepared for the District Director", presenter, "Programme year · fiscal month m of 12

@@ -62,6 +62,7 @@ new clubs chartered 1 Oct – 31 Mar. Count gross charters by charter date.
   members against the member base as a proxy and label it "proxy" everywhere it appears.
 - **Charters this year** (optional). If the user has the official District Club Growth report,
   use its charter count for each window.
+- **District Success Plan and budget** (optional documents). See below.
 - **Format** (optional). Default: deck only.
 
 ## Ask the presenter
@@ -78,8 +79,42 @@ on the "Growth plan" slide, and the payments figures on the targets slide.
 5. Membership payments: year-to-date payments and the payments base from the District
    Performance report (otherwise the report uses paid members as a proxy).
 6. Charters: the official District Club Growth report's count for each window, if you have it.
+7. District Success Plan and approved budget: attach them if you have them (optional).
 
 If nobody can answer (a scheduled run), build with placeholders and say so.
+
+## District Success Plan and budget (optional documents)
+
+The user may attach the district's **District Success Plan** and its **approved budget** (usually
+PDFs). Both are optional: without them, build the report from the dashboard as usual and leave
+their slides out. They may be confidential, so use their figures only in the report you build:
+never write them, or the documents, into a repository, a skill or shared memory.
+
+From the **District Success Plan**:
+
+- Use its official starting numbers (club base, membership payments base) and its targets for
+  each level instead of computing them from the dashboard. If they differ (for example, the
+  dashboard's club base counts a placeholder division), use the plan's and say why in the notes.
+- Use last year's closing figures from the plan as context (paid clubs, payments, Distinguished
+  clubs by level).
+- Take the presenter's name and role from its team list when the user hasn't given one.
+- For each action the plan gives this role (or a goal it owns), show the owner and end date from
+  the plan and, beside it, where the dashboard puts it today. For the Club Growth Director, that is the membership payments and club growth goals: retention and coaching, recruitment and renewals, new and corporate clubs.
+- Flag anything in the plan that doesn't add up as "check": a name spelled two ways, blank
+  monthly milestones, a qualifying form with zero leaders. Don't correct the plan.
+
+From the **budget**:
+
+- Check its fiscal year. If it isn't the report's year, label every figure with its year and ask
+  the user for the current approved budget.
+- Show the lines this role spends: club growth, marketing outside Toastmasters and public relations where the CGD shares it. Give each line's amount, its share of the
+  membership dues allocation and the policy limit the budget states. Compute only those shares.
+- Spend to date isn't in the budget or the dashboard: show "[From the Finance Manager]".
+- Note any phasing the budget gives (months a line is spent in) where it affects what to do now.
+
+With these documents, add two slides before the presenter's-answers slide: "Success Plan | club growth actions" (action, owner, by, dashboard now) and
+"Budget | club growth and marketing" (line, amount, share of dues, policy, spent to date). Pre-fill the presenter's answers with what the documents already say (owners,
+budgeted amounts) and keep "[bracketed]" for what they don't.
 
 ## 1. Gather the data
 
@@ -145,7 +180,8 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
 ## 3. Build the deck
 
 Start from the Artifact **Slides** type, 16:9, titled "District <n> club growth – <Month YYYY>",
-in the report style below. Eleven slides, no closing "Questions?" slide:
+in the report style below. Eleven slides (thirteen with the Success Plan and budget slides), no
+closing "Questions?" slide:
 
 1. **Cover**: eyebrow "DISTRICT <n> · CLUB GROWTH", title "Club Growth Report", subtitle
    "Prepared for the Club Growth Director", presenter, "Programme year · fiscal month m of 12
