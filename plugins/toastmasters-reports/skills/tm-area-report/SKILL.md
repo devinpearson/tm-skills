@@ -1,6 +1,6 @@
 ---
 name: tm-area-report
-description: Build a Toastmasters-branded Area Director report (slide deck, optionally a web page) with club-by-club status from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for an area report, area council update, Area Director slides, or a report on one area such as "D74 F3".
+description: Build a Toastmasters-branded Area Director working report (slide deck, optionally a web page) with club-by-club triage, a visit planner and a dated action list from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for an area report, area council update, Area Director slides, or a report on one area such as "D74 F3".
 ---
 
 # Toastmasters Area Director report
@@ -50,41 +50,64 @@ totals, percentages and differences.
 
 ## 2. Work out the story
 
+Write it for the Area Director: someone who looks after four to six clubs, visits each one twice
+a year, and has a few hours a month. Every line should say which club, what to do, and by when.
+
 - **Snapshot**: paid clubs / clubs, members vs base (net and %), DCP goals (per club),
-  educational awards, round 1 or 2 visits (visited / required), officer training for both rounds,
+  educational awards, visits in the open round (done / needed), officer training for both rounds,
   and the change since last month for each.
-- **Distinguished Area progress**: paid clubs and Distinguished clubs against
-  `goals.*` for Distinguished, Select and President's. Before April say "on track for".
-- **Each club**: members vs base, DCP goals, goals and members still needed for its next level
-  (`progress.next`), outlook, health score, and `needs` (club coach, success plan). Outlook
-  colours: `doing_well` green; `improving` or `steady` amber; `declining` or `definite_worry` red.
-- **Watch list**: clubs under 20 members or under their base, clubs paid again only recently,
-  clubs not yet visited this round, clubs with no educational awards by November, and any
-  off-month member drop.
-- **Next actions**: `insights.next_actions` in the connector's wording, with their dates.
-- **Asks**: three numbers with deadlines, built from the next actions (for example officers to
-  train by 28 Feb, Distinguished clubs needed by 30 Jun, one club to support).
+- **Summary**, four labelled lines in this order:
+  - *On course*: clubs whose `progress.achieved` is set, and how many more the area needs.
+  - *Closest next*: the clubs with the smallest `progress.next` gap.
+  - *Still at risk*: Red or Amber clubs (triage below), and what a lost club would do to the area.
+  - *Due next*: the nearest deadline (visit round, training round) with done / needed.
+- **Distinguished Area scorecard**, a table: rows Paid clubs (with base), Distinguished clubs
+  ("0 (1 on course)"), Members (with base and net), Total DCP goals; columns Now, Distinguished,
+  Select, President's from `goals.*`. Say what each level still needs. When President's needs
+  more paid clubs than the area has, say that only a new club gets there.
+- **Club by club**, one row per club: members (base), change since last month, DCP goals, the
+  visit in the open round (done / not yet), round 2 officers trained (n / 4), next milestone
+  (`progress.next`), health, and a short "why". Triage rule, applied exactly:
+  - Red: status Ineligible, Low or Suspended, or under 8 members.
+  - Amber: under 13 members, or 40% or more below base.
+  - Green: everything else; a club with no scored year shows the outlook "New club".
+- **Visit planner**, one card per club, for the next visit or call:
+  - when: not yet visited this round first; otherwise the next round's opening.
+  - what to ask about, from the data: the goal or members it needs next, renewals if it is below
+    base, educational awards if it has none, a Club Success Plan if `needs.club_success_plan`,
+    a Club Coach if `needs.club_coach`, the month target if `below_month_target`.
+  Keep each to two or three prompts. They are conversation starters, not verdicts.
+- **Action list**, ordered by deadline then impact, each naming clubs and a date:
+  1. Visits still needed in the open round.
+  2. Red clubs and anything that threatens paid status.
+  3. Officer training still needed in the open round.
+  4. Clubs closest to Distinguished.
+  5. Club Success Plans and Club Coaches.
+  6. Clubs below this month's goal target not already listed.
+- **Asks**: three numbers with deadlines from the top of the action list.
+- **Notes on data and method** in the speaker notes: snapshot date, what members and base mean,
+  the club Distinguished rule (5 goals plus 20 members or net growth of 3; recognised from
+  April), the triage rule, and any data hygiene flags.
 
 ## 3. Build the deck
 
 Start from the Artifact **Slides** type, 16:9 at 1920×1080, titled
-"Area <X><NN> update – <Month YYYY>", and follow that type's instructions. Seven slides:
+"Area <X><NN> update – <Month YYYY>", and follow that type's instructions. Eight slides, no
+closing "Questions?" slide:
 
 1. **Cover**: eyebrow "DISTRICT <n> · DIVISION <X>", title "Area <X><NN> Report", subtitle
-   "Area Director update", the Area Director's name, programme year and "data as of", tagline.
+   "Area Director working report", the Area Director's name (or "[Area Director name]"),
+   programme year and "data as of", tagline.
 2. **Area <X><NN> | performance snapshot**: 3×2 stat grid and an "Area signal:" line.
-3. **Clubs | outlook and next milestone**: one status card per club (2×2 for four clubs; 3
-   columns for five or six), each with the outlook marker, club number, members vs base, goals
-   needed and outlook in words.
-4. **Membership change vs base | by club**: dot chart, area in maroon as the focal row and as
-   the dashed reference line, with a "current / base" list on the right.
-5. **Path to Distinguished | DCP goals by club**: horizontal bars of goals met with a dashed line
-   at 5, and "goals still needed" on the right, plus how many Distinguished clubs the area needs.
-6. **Visits, officer training and watch list**: three columns, then a gray line stating the
-   watch-list rules.
-7. **Three asks for the coming months**: three big numbers with deadlines and an "Area signal:".
+3. **Summary**: the four labelled lines as cards.
+4. **Distinguished Area scorecard**: the table, with what each level still needs in the signal.
+5. **Club by club**: the table, health as a coloured word, with the triage rule in a gray note.
+6. **Visit planner**: one card per club (2×2 for four clubs, 3 columns for five or six).
+7. **Action list**: the ordered list as checkbox lines with clubs and dates.
+8. **Three asks**: three big numbers with deadlines and an "Area signal:".
 
-Put the context, sources and the not-official disclaimer in each slide's speaker notes.
+Put the context, sources, notes on data and method and the not-official disclaimer in the
+speaker notes.
 
 ### Web page (when asked)
 
