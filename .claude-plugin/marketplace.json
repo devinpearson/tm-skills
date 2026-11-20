@@ -1,0 +1,17 @@
+{
+  "name": "tm-skills",
+  "owner": {
+    "name": "Devin Pearson"
+  },
+  "metadata": {
+    "description": "Claude skills for Toastmasters district, division and area leaders: branded reports and plan reviews from Toastmasters dashboard data."
+  },
+  "plugins": [
+    {
+      "name": "toastmasters-reports",
+      "source": "./plugins/toastmasters-reports",
+      "description": "District and division reports (web page plus slide deck) and an interactive Area Director plan review, with Toastmasters branding.",
+      "category": "productivity"
+    }
+  ]
+}

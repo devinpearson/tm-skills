@@ -1,0 +1,12 @@
+{
+  "name": "toastmasters-reports",
+  "version": "0.1.0",
+  "description": "District and division reports (web page plus slide deck) and an interactive Area Director plan review, with Toastmasters branding.",
+  "author": {
+    "name": "Devin Pearson"
+  },
+  "homepage": "https://github.com/devinpearson/tm-skills",
+  "repository": "https://github.com/devinpearson/tm-skills",
+  "license": "MIT",
+  "keywords": ["toastmasters", "reports", "dcp", "district", "division", "area"]
+}
