@@ -62,8 +62,15 @@ it plain and data-first: white background, blue type, maroon numbers, no decorat
 - **Notes line** in gray at the bottom for definitions and rules ("Net is current less base").
 - **Cover**: eyebrow "DISTRICT <n> · DIVISION <X>" in maroon, a big title ("Area F3 Report"),
   a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
-  YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
-  right only if the user supplied one.
+  YYYY–YYYY · fiscal month <m> of 12 (<Month>) · data as of <date>", and the tagline "Where
+  Leaders Are Made". Place the logo on the right only if the user supplied one, and keep every
+  line of cover text within the left 1060px (about 55% of the slide) so none of it runs under
+  the logo: let a long subtitle wrap rather than widen it.
+- **Year strip** (role reports): twelve boxes, July to June, past months in the light panel,
+  the current month in True Maroon with white text, each labelled "done", "now" or "ahead" so
+  the state isn't colour alone; under it three maroon-headed columns Done / Now / Next.
+- **Presenter's answers** (role reports): a 2×2 grid of light panels, each with a maroon heading,
+  the answer in maroon, and the question in gray; "[bracketed]" where no answer was given.
 - **No closing "Questions?" slide**: end on the asks slide.
 - **Speaker notes** carry the detail and the footer text (source, date, not-official
   disclaimer), so slides stay clean.

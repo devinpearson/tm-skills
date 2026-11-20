@@ -53,10 +53,25 @@ last year's payments; targets round up.
 - **Membership payments** (optional): year-to-date payments and the payments base from the
   Toastmasters District Performance report. Without them, use members against the member base
   and label it "proxy".
-- **District Success Plan goals, budget status, Region Advisor check-in** (optional). The
-  dashboard doesn't have them; include them only when the user gives them.
 - **Format** (optional). Default: the slide deck only. Make the web page as well only if the user
   asks for one.
+
+## Ask the presenter
+
+Before building, ask the person making the report these questions, all in one message (in Claude
+Code, one AskUserQuestion call with free-text answers). Say that each is optional and that
+anything left blank shows as a "[bracketed]" placeholder they can fill in later. Use the answers
+on the "District Success Plan and operations" slide and in the year strip.
+
+1. Your name and role for the cover.
+2. District Success Plan: which goals are on track, and which need help?
+3. Budget: where spending stands against the approved budget (with the Finance Manager).
+4. Region Advisor: date of the last or next check-in, and what it agreed.
+5. Team: any district roles vacant, or leaders who need support?
+6. Membership payments: year-to-date payments and the payments base from the District
+   Performance report (otherwise the report uses paid members as a proxy).
+
+If nobody can answer (a scheduled run), build with placeholders and say so.
 
 ## 1. Gather the data
 
@@ -68,8 +83,8 @@ tell the user to connect the server (see the tm-skills README) rather than guess
 2. Read the resource `toastmasters://rules/dcp` so the wording of rules is right.
 3. `get_district(district, fiscal_year)`.
 4. `get_division(district, division)` for every real division in the district list (run them in parallel).
-5. `get_area` for every area, in parallel, when you need club-level detail (clubs on course,
-   clubs to rescue). In a client that can delegate, hand this to a helper that writes one row
+5. `get_area` for every area, in parallel, for club-level detail: each club's `progress.achieved`
+   (the level it is potentially Distinguished at, before April) and the clubs to rescue. In a client that can delegate, hand this to a helper that writes one row
    per club to a file.
 
 Do not recompute rules the connector already evaluates (Distinguished status, visit state,
@@ -98,13 +113,18 @@ not today's date. Compute only simple totals, percentages and rankings, and say 
 Lead with what the District Director must act on, and who on the team owns it.
 
 - **Snapshot**: paid clubs against the club base, members against the member base (and change),
-  Distinguished clubs (on course) against the Distinguished District count, DCP goals (and
+  potentially Distinguished clubs (the API's status before April) against the Distinguished
+  District count, DCP goals (and
   change), club visits in the open round, and officer training in the open round.
+- **Where we are in the year**: fiscal month m of 12 (`fiscal_month`; July is 1). Done / Now /
+  Next across the whole district: charter windows, officer training rounds, club visit rounds,
+  renewals (1 October, 1 April), Distinguished recognition from April, year end (30 June), and
+  the Region Advisor check-in the presenter gave. Move items between columns as the month changes.
 - **Distinguished District scorecard**, a table: rows Net club growth, Membership payments (or
   proxy), Distinguished clubs, Club retention (90% of the paid base); columns Now, Distinguished,
   Select, President's, and Owner (CGD, PQD). Say which measure is furthest from the first level.
 - **Divisions at a glance**, one row per lettered division: paid clubs against its Distinguished
-  Division goal, clubs on course against its Distinguished clubs goal, members as % of base,
+  Division goal, potentially Distinguished clubs against its Distinguished clubs goal, members as % of base,
   areas that met the open visit round, round 1 training %, and the biggest gap in words.
 - **Leadership team KPIs**, three columns: Club growth (CGD), Program quality (PQD), Divisions
   and areas. Three or four figures each, with the deadline that matters most.
@@ -114,6 +134,7 @@ Lead with what the District Director must act on, and who on the team owns it.
   Suspended) by division; divisions with members under 80% of base, 4 or more paid clubs short
   of their goal, round 1 training under 65%, or areas with no visits in the open round; and data
   issues (marked "check").
+- **District Success Plan and operations**: the presenter's answers to the questions above.
 - **Action list by owner**: DD, CGD, PQD and Division Directors, each line naming clubs, areas or
   divisions and a date, ordered by deadline.
 - **Three asks**: three numbers with deadlines, each with its owner.
@@ -123,21 +144,23 @@ Lead with what the District Director must act on, and who on the team owns it.
 ### Slide deck
 
 Start from the Artifact **Slides** type, 16:9, titled "District <N> update – <Month YYYY>", in the
-report style below. Nine slides, no closing "Questions?" slide:
+report style below. Eleven slides, no closing "Questions?" slide:
 
 1. **Cover**: eyebrow "DISTRICT <n> · DISTRICT DIRECTOR", title "District <n> Report", subtitle
-   "Prepared for the District Director", presenter, programme year and "data as of", tagline.
+   "Prepared for the District Director", presenter, "Programme year · fiscal month m of 12
+   (<Month>) · data as of <date>", tagline.
 2. **District <n> | performance snapshot**: 3×2 stat grid and a "District signal:" line.
-3. **Distinguished District scorecard**: the table with owners.
-4. **Divisions at a glance**: the table.
-5. **Leadership team KPIs**: three columns.
-6. **Since last month**: district change in the caption, a table by division.
-7. **Watch list**: three columns (clubs, divisions, data).
-8. **Action list by owner**: checkbox lines.
-9. **Three asks**: three big numbers with owners and deadlines, and a "District signal:".
+3. **District <n> | where we are in the year**: the year strip and Done / Now / Next.
+4. **Distinguished District | scorecard**: the table with owners.
+5. **Divisions at a glance**: the table.
+6. **Leadership team | KPIs**: three columns.
+7. **Since last month**: district change in the caption, a table by division.
+8. **Watch list**: three columns (clubs, divisions, data).
+9. **District Success Plan and operations**: the presenter's answers, 2×2.
+10. **Action list by owner**: checkbox lines.
+11. **Three asks**: three big numbers with owners and deadlines, and a "District signal:".
 
-Add a slide for the District Success Plan, budget or Region Advisor check-in only when the user
-gave that information. Put sources (roles guide, Item 1490 version), data notes and the
+Put sources (roles guide, Item 1490 version), data notes and the
 not-official disclaimer in the speaker notes. The deck is a snapshot: write the figures as of
 the report date into the slides.
 
@@ -216,8 +239,15 @@ it plain and data-first: white background, blue type, maroon numbers, no decorat
 - **Notes line** in gray at the bottom for definitions and rules ("Net is current less base").
 - **Cover**: eyebrow "DISTRICT <n> · DIVISION <X>" in maroon, a big title ("Area F3 Report"),
   a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
-  YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
-  right only if the user supplied one.
+  YYYY–YYYY · fiscal month <m> of 12 (<Month>) · data as of <date>", and the tagline "Where
+  Leaders Are Made". Place the logo on the right only if the user supplied one, and keep every
+  line of cover text within the left 1060px (about 55% of the slide) so none of it runs under
+  the logo: let a long subtitle wrap rather than widen it.
+- **Year strip** (role reports): twelve boxes, July to June, past months in the light panel,
+  the current month in True Maroon with white text, each labelled "done", "now" or "ahead" so
+  the state isn't colour alone; under it three maroon-headed columns Done / Now / Next.
+- **Presenter's answers** (role reports): a 2×2 grid of light panels, each with a maroon heading,
+  the answer in maroon, and the question in gray; "[bracketed]" where no answer was given.
 - **No closing "Questions?" slide**: end on the asks slide.
 - **Speaker notes** carry the detail and the footer text (source, date, not-official
   disclaimer), so slides stay clean.

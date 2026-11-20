@@ -36,16 +36,17 @@ From the District Recognition Program (Item 1490, Rev. 07/2026, for 2026–2027)
 change these each year: if the program year isn't 2026–2027, check the current Item 1490 and say
 which version you used.
 
-| Level | Net club growth | Membership payments growth | Distinguished clubs |
-| --- | --- | --- | --- |
-| Distinguished | 1% | 1% | 45% of club base |
-| Select Distinguished | 3% | 3% | 50% |
-| President's Distinguished | 5% | 5% | 55% |
-| Smedley Distinguished | 8% | 8% | 60% |
+| Level | Net club growth | Membership payments growth |
+| --- | --- | --- |
+| Distinguished | 1% | 1% |
+| Select Distinguished | 3% | 3% |
+| President's Distinguished | 5% | 5% |
+| Smedley Distinguished | 8% | 8% |
 
 Growth is measured against the club base (paid clubs at 1 July) and last year's payments; goals
-round up to the next whole number, and losses must be recovered first. The Distinguished clubs
-column belongs to the Program Quality Director, but show it so the CGD sees the whole target.
+round up to the next whole number, and losses must be recovered first. Distinguished District
+also needs a share of Distinguished clubs, but that measure belongs to the Program Quality
+Director (`tm-pqd-report`): leave Distinguished clubs out of this report, slides and notes alike.
 
 District Club Growth Achievement windows: 3 or 5 new clubs chartered 1 Jul – 30 Sep; 3, 5 or 10
 new clubs chartered 1 Oct – 31 Mar. Count gross charters by charter date.
@@ -62,6 +63,23 @@ new clubs chartered 1 Oct – 31 Mar. Count gross charters by charter date.
 - **Charters this year** (optional). If the user has the official District Club Growth report,
   use its charter count for each window.
 - **Format** (optional). Default: deck only.
+
+## Ask the presenter
+
+Before building, ask the person making the report these questions, all in one message (in Claude
+Code, one AskUserQuestion call with free-text answers). Say that each is optional and that
+anything left blank shows as a "[bracketed]" placeholder they can fill in later. Use the answers
+on the "Growth plan" slide, and the payments figures on the targets slide.
+
+1. Your name and role for the cover.
+2. Clubs in development: prospects, sponsors and demo meeting dates.
+3. Club Coaches: which coach-eligible clubs already have one?
+4. Marketing: open houses, campaigns or partners planned before the April renewals.
+5. Membership payments: year-to-date payments and the payments base from the District
+   Performance report (otherwise the report uses paid members as a proxy).
+6. Charters: the official District Club Growth report's count for each window, if you have it.
+
+If nobody can answer (a scheduled run), build with placeholders and say so.
 
 ## 1. Gather the data
 
@@ -95,9 +113,14 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
 - **Snapshot**: paid clubs against the club base (net and %), members against the member base,
   new members this year (and last month), new clubs chartered this year, unpaid clubs, and the
   share of clubs with 20+ members.
-- **Growth scorecard**, a table: rows Net club growth, Membership payments growth (or proxy),
-  Distinguished clubs; columns Now, Distinguished, Select, President's, Smedley, each target as
-  a count (round up) and %. Say how many paid clubs each level needs from here.
+- **Where we are in the year**: fiscal month m of 12 (`fiscal_month`; July is 1) and what it
+  means for growth. Done: the Jul–Sep charter window, October renewals. Now: the Oct–Mar charter
+  window, Club Success Plans due, clubs to rescue. Next: the end of the Oct–Mar window (31 March),
+  April renewals (1 April, when unpaid members are removed), year end (30 June). Move items between
+  columns as the month changes.
+- **Growth targets**, a table: rows Net club growth, Paid clubs still needed, Membership payments
+  growth (or proxy), Payments still needed, Club retention; columns Now, Distinguished, Select,
+  President's, Smedley, each target as a count (round up) and %. No Distinguished clubs row.
 - **New clubs**: charters in each District Club Growth Achievement window against 3 / 5 / 10,
   each new club's name, charter date and Club Success Plan deadline, and how many charters the
   open window still needs.
@@ -116,25 +139,29 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
   3. Clubs to rescue before April renewals (1 April).
   4. Club Coaches for the coach-eligible clubs.
   5. Divisions furthest below their member base.
+- **Growth plan**: the presenter's answers to the questions above.
 - **Asks**: three numbers with deadlines from the top of the action list.
 
 ## 3. Build the deck
 
 Start from the Artifact **Slides** type, 16:9, titled "District <n> club growth – <Month YYYY>",
-in the report style below. Nine slides, no closing "Questions?" slide:
+in the report style below. Eleven slides, no closing "Questions?" slide:
 
 1. **Cover**: eyebrow "DISTRICT <n> · CLUB GROWTH", title "Club Growth Report", subtitle
-   "Prepared for the Club Growth Director", presenter, programme year and "data as of", tagline.
+   "Prepared for the Club Growth Director", presenter, "Programme year · fiscal month m of 12
+   (<Month>) · data as of <date>", tagline.
 2. **District <n> | club growth snapshot**: 3×2 stat grid and a "Growth signal:" line.
-3. **Distinguished District growth scorecard**: the table.
-4. **New clubs and the Club Growth Achievement**: the two windows as big numbers against their
+3. **Club growth | where we are in the year**: the year strip and Done / Now / Next.
+4. **Club growth targets | Distinguished District**: the table.
+5. **New clubs and the Club Growth Achievement**: the two windows as big numbers against their
    levels, then each new club with charter date and Club Success Plan deadline.
-5. **Clubs to rescue before April renewals**: the table.
-6. **Club Coach pipeline**: the table of coach-eligible clubs.
-7. **Retention by division**: a dot chart of members as % of base by division with the district
+6. **Clubs to rescue before April renewals**: the table.
+7. **Club Coach pipeline**: the table of coach-eligible clubs.
+8. **Retention by division**: a dot chart of members as % of base by division with the district
    as the dashed line, and paid clubs / base beside it.
-8. **Action list**: checkbox lines with clubs, divisions and dates.
-9. **Three asks**: three big numbers with deadlines and a "Growth signal:".
+9. **Growth plan | from the Club Growth Director**: the presenter's answers, 2×2.
+10. **Action list**: checkbox lines with clubs, divisions and dates.
+11. **Three asks**: three big numbers with deadlines and a "Growth signal:".
 
 Put sources, the Item 1490 version, data notes and the not-official disclaimer in the speaker
 notes.
@@ -200,8 +227,15 @@ it plain and data-first: white background, blue type, maroon numbers, no decorat
 - **Notes line** in gray at the bottom for definitions and rules ("Net is current less base").
 - **Cover**: eyebrow "DISTRICT <n> · DIVISION <X>" in maroon, a big title ("Area F3 Report"),
   a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
-  YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
-  right only if the user supplied one.
+  YYYY–YYYY · fiscal month <m> of 12 (<Month>) · data as of <date>", and the tagline "Where
+  Leaders Are Made". Place the logo on the right only if the user supplied one, and keep every
+  line of cover text within the left 1060px (about 55% of the slide) so none of it runs under
+  the logo: let a long subtitle wrap rather than widen it.
+- **Year strip** (role reports): twelve boxes, July to June, past months in the light panel,
+  the current month in True Maroon with white text, each labelled "done", "now" or "ahead" so
+  the state isn't colour alone; under it three maroon-headed columns Done / Now / Next.
+- **Presenter's answers** (role reports): a 2×2 grid of light panels, each with a maroon heading,
+  the answer in maroon, and the question in gray; "[bracketed]" where no answer was given.
 - **No closing "Questions?" slide**: end on the asks slide.
 - **Speaker notes** carry the detail and the footer text (source, date, not-official
   disclaimer), so slides stay clean.

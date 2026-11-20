@@ -23,8 +23,8 @@ that follow:
 
 | KPI | Measure | Where it comes from |
 | --- | --- | --- |
-| Distinguished clubs | Clubs meeting a Distinguished level, against % of the club base | Distinguished District requirement; roles guide (40%) |
-| Distinguished pipeline | Clubs on course, one or two goals away, goals met but members short | DCP progress (`progress.next`) |
+| Potentially Distinguished clubs | Clubs that meet a Distinguished level now, by level, against % of the club base | API: each club's `progress.achieved` / `milestone.achieved`; Distinguished District requirement; roles guide (40%) |
+| Distinguished pipeline | Potentially Distinguished, one or two goals away, goals met but members short | DCP progress (`progress.next`) |
 | DCP goals | Goals met, per club, and clubs below this month's target | DCP; `insights.month_target` |
 | Educational awards | Awards this year and last month, per club | DCP goals 1–6 |
 | Club officer training | Officers trained in each round, by division | DCP goal 9 (4 officers in each round) |
@@ -42,17 +42,32 @@ version you used.
 
 Club Distinguished rule (from `toastmasters://rules/dcp`): 5 of 10 DCP goals and 20 paid members
 or net growth of 3; Select 7 goals and 20 members or net growth of 5; President's 9 goals and 20
-members; Smedley 10 goals and 25 members. Clubs are recognised from April, so before then say "on course", never "Distinguished".
+members; Smedley 10 goals and 25 members. Clubs are recognised from April. Before then the dashboard calls a club
+that meets a level **potentially Distinguished** (or potentially Select, President's, Smedley):
+use that term, as the API returns it, and never call those clubs Distinguished. The official
+Distinguished count stays 0 until April.
 
 ## Inputs
 
 - **District** (required). Ask if missing.
 - **Fiscal year** (optional, `YYYY-YYYY`). Default is the current one.
 - **Presenter** (optional). Without it, put "[Program Quality Director name]" on the cover.
-- **Contests, TLI and conference** (optional): dates for area, division and district contests,
-  the round 2 Toastmasters Leadership Institute (TLI) sessions and the district conference. The
-  dashboard doesn't have them; leave the slide out without them and say so.
 - **Format** (optional). Default: deck only.
+
+## Ask the presenter
+
+Before building, ask the person making the report these questions, all in one message (in Claude
+Code, one AskUserQuestion call with free-text answers). Say that each is optional and that
+anything left blank shows as a "[bracketed]" placeholder they can fill in later. Use the answers
+on the "Training, contests and conference" slide and in the year strip's Next column.
+
+1. Your name and role for the cover.
+2. Round 2 training (TLI): session dates and venues by division.
+3. Speech contests: which contests run this year, and the area, division and district dates.
+4. District conference: date, venue and where planning stands.
+5. Education focus: recognition plans and how clubs are being helped to earn awards.
+
+If nobody can answer (a scheduled run), build with placeholders and say so.
 
 ## 1. Gather the data
 
@@ -65,7 +80,9 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
    and every area's visit rounds.
 4. `get_division` for every lettered division, in parallel: `officer_training` rounds,
    `on_track_clubs`, visits and the Distinguished Division goals.
-5. `get_area` for every area, in parallel, for each club's goals, members, `progress.achieved`,
+5. `get_area` for every area, in parallel, for each club's goals, members, `progress.achieved`
+   (the level a club potentially holds now), `milestone.achieved` (the API's wording, such as
+   "Potentially Distinguished: meets the requirements, and can become Distinguished from April"),
    `progress.next` and `below_month_target`. In a client that can delegate, hand this to a
    helper that writes one row per club to a file.
 
@@ -84,14 +101,23 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
 
 ## 2. Work out the story
 
-- **Snapshot**: Distinguished clubs (and how many on course) against the target, DCP goals (per
+- **Snapshot**: potentially Distinguished clubs against the Distinguished District count, DCP goals (per
   club, change since last month), educational awards (per club, change), officer training round
   1 and round 2, and Area Director visits in the open round (visits done / needed, areas met).
-- **Distinguished clubs pipeline**, a table: stages "On course now", "1 goal or 2 members away",
+- **Where we are in the year**: fiscal month m of 12 (`fiscal_month`; July is 1) and what it
+  means for program quality. Done: round 1 officer training (1 Jun – 31 Aug). Now: round 1 club
+  visits (due 30 Nov), round 2 training (1 Nov – 28 Feb), this month's DCP target and next month's.
+  Next: contest season (the presenter's dates), Distinguished recognition from April, round 2
+  visits (31 May), year end (30 June). Move items between columns as the month changes.
+- **Distinguished clubs pipeline**, a table: stages "Potentially Distinguished now", "1 goal or 2 members away",
   "2 goals away", "Goals met, members short", "Further away", each with clubs and a running
   total, against the 40% floor and the Distinguished / Select / President's / Smedley counts.
   Say plainly how far the pipeline falls short; don't promise the target.
-- **Closest to Distinguished**: the named clubs from the first three stages with area, goals,
+- **Potentially Distinguished clubs**: every club whose `progress.achieved` is set, with area,
+  goals, members, the level it potentially holds and what the next level needs
+  (`progress.next`). Count them by level. Remind that they keep the level only if still in good
+  standing after the April renewals.
+- **Closest to Distinguished**: the named clubs from the next two stages with area, goals,
   members and what each still needs.
 - **DCP goals and educational awards by division**: a dot chart of goals per club with the
   district as the dashed line and the month target noted, and awards per club beside it. Name
@@ -99,7 +125,7 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
 - **Club officer training**: round 1 % by division (dot chart), round 2 trained so far and the
   officers still to train by 28 February.
 - **Club visits**: every area short in the open round with visited / required and days left.
-- **Contests, TLI and conference**: only when the user gave dates.
+- **Training, contests and conference**: the presenter's answers to the questions above.
 - **Action list**, ordered by deadline, each naming clubs, areas or divisions:
   1. Club visits still needed in the open round.
   2. Round 2 officer training (TLI) by 28 February.
@@ -111,22 +137,24 @@ stop and tell the user to connect the server (see the tm-skills README). Then ca
 ## 3. Build the deck
 
 Start from the Artifact **Slides** type, 16:9, titled "District <n> program quality – <Month
-YYYY>", in the report style below. Nine slides (ten with contests), no closing "Questions?":
+YYYY>", in the report style below. Twelve slides, no closing "Questions?":
 
 1. **Cover**: eyebrow "DISTRICT <n> · PROGRAM QUALITY", title "Program Quality Report", subtitle
-   "Prepared for the Program Quality Director", presenter, programme year and "data as of",
-   tagline.
+   "Prepared for the Program Quality Director", presenter, "Programme year · fiscal month m of 12
+   (<Month>) · data as of <date>", tagline.
 2. **District <n> | program quality snapshot**: 3×2 stat grid and a "Quality signal:" line.
-3. **Distinguished clubs pipeline**: the table.
-4. **Closest to Distinguished**: the clubs table.
-5. **DCP goals by division**: the dot chart with educational awards beside it.
-6. **Club officer training**: the dot chart with round 2 beside it.
-7. **Club visits**: the areas still short.
-8. **Action list**: checkbox lines with clubs, areas and dates.
-9. **Three asks**: three big numbers with deadlines and a "Quality signal:".
+3. **Program quality | where we are in the year**: the year strip and Done / Now / Next.
+4. **Distinguished clubs | pipeline**: the table.
+5. **Potentially Distinguished clubs**: the table, counted by level in the caption.
+6. **Closest to Distinguished**: the clubs table.
+7. **DCP goals by division**: the dot chart with educational awards beside it.
+8. **Club officer training**: the dot chart with round 2 beside it.
+9. **Club visits**: the areas still short.
+10. **Training, contests and conference**: the presenter's answers, 2×2.
+11. **Action list**: checkbox lines with clubs, areas and dates.
+12. **Three asks**: three big numbers with deadlines and a "Quality signal:".
 
-Add "Contests, TLI and conference" before the action list only when the user gave dates. Put
-sources (roles guide, Item 1490 version), data notes and the not-official disclaimer in the
+Put sources (roles guide, Item 1490 version), data notes and the not-official disclaimer in the
 speaker notes.
 
 ### Web page (when asked)
@@ -190,8 +218,15 @@ it plain and data-first: white background, blue type, maroon numbers, no decorat
 - **Notes line** in gray at the bottom for definitions and rules ("Net is current less base").
 - **Cover**: eyebrow "DISTRICT <n> · DIVISION <X>" in maroon, a big title ("Area F3 Report"),
   a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
-  YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
-  right only if the user supplied one.
+  YYYY–YYYY · fiscal month <m> of 12 (<Month>) · data as of <date>", and the tagline "Where
+  Leaders Are Made". Place the logo on the right only if the user supplied one, and keep every
+  line of cover text within the left 1060px (about 55% of the slide) so none of it runs under
+  the logo: let a long subtitle wrap rather than widen it.
+- **Year strip** (role reports): twelve boxes, July to June, past months in the light panel,
+  the current month in True Maroon with white text, each labelled "done", "now" or "ahead" so
+  the state isn't colour alone; under it three maroon-headed columns Done / Now / Next.
+- **Presenter's answers** (role reports): a 2×2 grid of light panels, each with a maroon heading,
+  the answer in maroon, and the question in gray; "[bracketed]" where no answer was given.
 - **No closing "Questions?" slide**: end on the asks slide.
 - **Speaker notes** carry the detail and the footer text (source, date, not-official
   disclaimer), so slides stay clean.
