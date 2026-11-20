@@ -93,7 +93,7 @@ to re-run the grilling after the next data refresh.
 ## Branding (only for any artifact you make)
 
 Loyal Blue #004165 (primary), True Maroon #772432 (accent), Cool Gray #A9B2B1 (secondary),
-Happy Yellow #F2DF74 (highlight, sparingly). Montserrat for headings, Source Sans 3 for body.
+Happy Yellow #F2DF74 (highlight, sparingly). Montserrat throughout.
 No white text on yellow or gray. Don't draw or alter the Toastmasters logo; use one only if the
 user supplies an approved file. Footer: "Data as of <date> · Not an official Toastmasters
 International publication."

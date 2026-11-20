@@ -15,6 +15,7 @@ their plans against the numbers.
 | --- | --- | --- |
 | [`tm-district-report`](plugins/toastmasters-reports/skills/tm-district-report/SKILL.md) | District Director, district council | A report page and an 8-slide deck: headline numbers, last month's change, division league table, area visits, officer training, watch list, three asks. |
 | [`tm-division-report`](plugins/toastmasters-reports/skills/tm-division-report/SKILL.md) | Division Director, Area Directors | A report page and an 8-slide deck: Distinguished Division progress, area scorecard, clubs needing help, bright spots, each Area Director's top action. |
+| [`tm-area-report`](plugins/toastmasters-reports/skills/tm-area-report/SKILL.md) | Area Director, area council | An 8-slide deck (page optional): area snapshot, club status cards, membership and Distinguished charts, watch list, three asks. |
 | [`tm-grill-area-plan`](plugins/toastmasters-reports/skills/tm-grill-area-plan/SKILL.md) | Area Director (or a Division Director coaching one) | An interactive review: one question at a time, checked against the area's data, ending in a scorecard and dated commitments. |
 
 Try asking:

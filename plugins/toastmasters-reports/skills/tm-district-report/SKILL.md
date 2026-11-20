@@ -38,6 +38,14 @@ not today's date. Compute only simple totals, percentages and rankings, and say 
 - `club_base` is the 1 July base; `month_change.current.clubs` is today's count. They differ when
   clubs charter or move. Show both where it matters; don't call it an error.
 - `month_change` is null in July. Then skip the "last month" section and say why.
+- A division's top-level `paid_clubs` can differ from its `month_change.current.paid_clubs`
+  (seen in District 74, Division C: 16 against 15). Use the top-level figure against the
+  Distinguished Division goal, the district `month_change` total for the headline, and list the
+  difference in Data notes.
+- `get_district` names an area's visit rounds `nov` / `may`; `get_division` names the division's
+  `julyOct` / `janMay`. They are the same two rounds (first due 30 Nov, second due 31 May).
+- Members are removed for non-payment only in October and April. An area whose members fall in
+  any other month is a report glitch or a club that moved: flag it as "check", don't report it as a loss.
 - If any call fails or a figure is missing, say which in Data notes. Never guess a value.
 
 ## 2. Work out the story
@@ -47,7 +55,8 @@ Lead with what the District Director must act on, not with every number.
 - **Headline**: active members vs member base (%), paid clubs vs club base, Distinguished clubs,
   DCP goals met, and the change since last fiscal month (`month_change.change`), including
   clubs added and removed.
-- **Month target**: `insights.month_target` goals per club for this month. Name the divisions
+- **Month target**: `insights.month_target` goals per club for this month, and the clubs on
+  track for it (sum of `insights.on_track_clubs` from each `get_division`). Name the divisions
   furthest behind.
 - **Division league table**: per division, members vs base (%), paid clubs vs base, Distinguished
   clubs vs the Distinguished Division goal (`goals.distinguished` from `get_division`),
@@ -55,7 +64,10 @@ Lead with what the District Director must act on, not with every number.
 - **Area visits**: from `insights.divisions[].areas[].visits`. List areas still short in the open
   round, with visited / required and the due label. Count days left from `as_of`.
 - **Officer training**: round in progress, % trained per division (`officer_training`).
-- **Watch list**: divisions or areas with falling members, paid clubs below base, or no visits.
+- **Watch list**, by stated rules so it can be checked: members under 80% of base; 4 or more
+  paid clubs short of the Distinguished Division goal; round 1 training under 65%; suspended
+  clubs; areas with no visits in the open round; area member drops outside October and April
+  (from each division's `month_change.areas`, marked "check").
 - **Three asks**: three concrete actions for the next month, each naming a division or area
   and a date. Base them on the data above, never on assumptions.
 
@@ -64,11 +76,25 @@ Lead with what the District Director must act on, not with every number.
 ### Web page
 
 Start from the Artifact **Data** type (quickstart with intent "other", or publish with its
-type_url) titled "District <N> report – <Month YYYY>". If that type isn't available, write
-a single HTML page and publish it with the Artifact tool. Order: headline tiles, "since last
-month", three asks, division table, area visits, training, watch list, data notes.
-Load the `dataviz` skill before drawing charts. Good charts: members vs base bars per
-division; visits progress per area.
+type_url) titled "District <N> report", and follow that type's own instructions. Make the
+page **live** rather than typing numbers in, so it stays current:
+
+- Each dataset is a call to the dashboard connector (connector name as the user added it, for
+  example "My Toastmasters Dashboards"), such as `get_district {"district": "<N>"}`.
+- The connector answers with one JSON object, not rows, so give each dataset a loader that
+  only reshapes it. A loader can call `get_division` for each lettered division with its
+  `call(tool, args)`, which avoids one dataset per division.
+- Put every sum, percentage and ranking in a calc, and write the asks, watch list and data notes
+  as calcs too, so their numbers follow the data.
+- The page's `<link>` tags are dropped there: load Montserrat with `@import`
+  inside its `<style>`, with fallbacks. Its colour tokens follow the reader's theme; mix Loyal
+  Blue and True Maroon with the foreground colour (`color-mix`) for text, so it reads in dark mode.
+
+If that type isn't available, write a single HTML page with the figures as of the report date
+and publish it with the Artifact tool. Order: headline tiles, "since last month", three asks,
+division table, area visits, training, watch list, data notes. Load the `dataviz` skill before
+drawing charts. Good charts: members vs base bars per division; visits per area as chips
+(met / short / none).
 
 ### Slide deck
 
@@ -84,7 +110,9 @@ At most 8 slides:
 7. Watch list.
 8. Three asks.
 
-Speaker notes carry the detail; slides carry one idea each.
+Speaker notes carry the detail; slides carry one idea each. The deck is a snapshot: write the
+figures as of the report date into the slides, check them against the report page, and say
+"Data as of <date>" on every slide.
 
 ### Without the Artifact tool
 
@@ -105,15 +133,49 @@ apply these tokens yourself.
 | Happy Yellow | #F2DF74 | Highlight only, sparingly: a callout or the one number that matters |
 | White | #FFFFFF | Backgrounds |
 
-- Fonts: **Montserrat** for headings, **Source Sans 3** for body text (Google Fonts; the web
-  stand-ins for the brand's print fonts).
+- Font: **Montserrat** for everything (Google Fonts; the web stand-in for the brand's print
+  fonts).
 - Contrast: never put white text on Happy Yellow or Cool Gray; use Loyal Blue or black on them.
   Good/bad states must not rely on colour alone; add a label or icon.
 - **Logo**: don't draw, recreate, recolour or stretch the Toastmasters logo or any trademark.
   Use a logo only if the user supplies their district's approved logo file, unaltered, with
   clear space around it. Otherwise the title text alone is the brand.
-- Footer on every page and slide: "Data as of <date> · Source: Toastmasters daily reports via
+- Footer on every page, and in the speaker notes and closing slide of a deck: "Data as of <date> · Source: Toastmasters daily reports via
   My Toastmasters Dashboards · Not an official Toastmasters International publication."
+
+## Report style
+
+Every report follows one look, taken from a District 74 division report. Keep
+it plain and data-first: white background, blue type, maroon numbers, no decoration.
+
+- **Type**: Montserrat only (weights 300–700), Loyal Blue text, muted gray (#6B7378) for captions.
+- **Slide titles** read "<Subject> | <subtitle>", for example "Division C | performance snapshot",
+  left-aligned, bold, about 72px on a 1920×1080 slide.
+- **Caption** under every title, in muted gray: the snapshot date and what is compared, for
+  example "Dashboard snapshot as of 20 November 2026 (fiscal month 5). Changes compare with October."
+- **Stat grid**: 3 columns × 2 rows. Each stat is a big True Maroon number (about 104px), a bold
+  blue label under it, and one gray line of context (rate, base, change since last month).
+- **Signal line**: one bold-prefixed sentence under the stats, "District signal:", "Division
+  signal:" or "Area signal:", saying what the numbers mean and what to do.
+- **Status cards**: light panel (#F2F3F3) with a gray border, a square traffic-light marker
+  (green #2A7A57, amber #C28A06, red #B5474B) beside the name, and a gray line that states the
+  rule behind the colour. The text always says the state too.
+- **Dot charts** for comparisons: one row per division, area or club, label right-aligned on the
+  left, value on the right, light gridlines, a dashed gray reference line for the overall figure,
+  and the focal row (the whole district, division or area) in True Maroon. Show Wilson 95%
+  intervals as whiskers on rates such as paid clubs; show none on simple totals and say so.
+  A "Reading this chart" sentence under each chart says what the measure is and is not.
+- **Three-column slides** for detail (visits, training, watch list) with maroon column headings.
+- **Notes line** in gray at the bottom for definitions and rules ("Net is current less base").
+- **Cover**: eyebrow "DISTRICT <n> · DIVISION <X>" in maroon, a big title ("Area F3 Report"),
+  a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
+  YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
+  right only if the user supplied one.
+- **Closing slide**: "Questions?" centred.
+- **Speaker notes** carry the detail and the footer text (source, date, not-official
+  disclaimer), so slides stay clean.
+- The **web page** uses the same pieces: header with the eyebrow, title and tagline, the stat
+  grid, the signal line, tables with blue rules instead of cards where a table reads better.
 
 ## Tone
 
