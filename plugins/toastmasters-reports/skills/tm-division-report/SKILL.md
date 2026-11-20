@@ -47,21 +47,48 @@ totals, percentages and rankings.
 
 ## 2. Work out the story
 
-- **Distinguished Division progress**: paid clubs vs `goals.*.paid_clubs` and Distinguished
-  clubs vs `goals.*.distinguished_clubs` for Distinguished, Select and President's. Show the gap
-  to the next level. Before April, say "on track for" rather than "is" Distinguished.
+Lead with what the division has already secured, then what decides the year. Every list below
+names clubs, not just counts.
+
+- **Summary**, four labelled lines in this order:
+  - *On course for Distinguished*: clubs whose `progress.achieved` is set ("potentially
+    Distinguished" before April; clubs can only become Distinguished from April).
+  - *Closest next*: the 2–4 clubs with the smallest `progress.next` gap (goals plus members).
+  - *Still at risk*: Red clubs (below) and what losing one would do to the paid-club target.
+  - *Due this month*: the nearest hard deadline (visit round, training round) with done / needed.
+- **Distinguished Division scorecard**, a table: rows Paid clubs (with base), Distinguished
+  clubs ("0 (2 on course)"), Members (with base and net), Total DCP goals, Average DCP goals per
+  club; columns Now, Distinguished, Select, President's (targets from `goals.*`; "—" where there is
+  none). Say which targets are already met and the paid-club margin: how many paid clubs the
+  division can lose before it drops a level.
 - **Since last month**: `month_change.change` for the division and each area.
-- **Area scorecard**, one row per area:
-  paid clubs / clubs, members vs base (%), current visit round (visited / required, due label),
-  officer training round in progress (%), clubs on track for the month target, and
-  Distinguished status. Mark each cell met / at risk / behind with a label, not colour alone.
-- **Clubs needing help**: every club whose outlook is `definite_worry` or `declining`, or whose
-  status is Low, Ineligible or Suspended. Give the club, area, paid members and the connector's
-  `reasons`. Note `needs.club_coach` and `needs.club_success_plan` where true.
-- **Bright spots**: clubs `doing_well` or `improving`, and the closest to Distinguished
-  (`progress.next` with the smallest goals and members needed).
-- **Each Area Director's top action**: the first item of that area's `insights.next_actions`
-  (title, hint and when), in the connector's wording.
+- **Area breakdown**, one row per area: paid clubs / clubs, members / base, % of base, average DCP
+  goals per club, visits in the open round (done / needed, "met" when met), officer training for
+  both rounds, member change since last month, and a traffic light in words (green = visit round
+  met and every club paid; red = no visits yet or under half the clubs paid; amber otherwise).
+  Name the area closest to base and the one that needs most help.
+- **Membership gap by club**: each club's paid members minus its base, sorted. Find the few
+  largest shortfalls and say what share of the gap they hold ("four clubs hold 50 of the
+  62-member shortfall"), and which clubs are above base.
+- **Club health triage**, every club with area, members (base), DCP goals, a health colour, the
+  dashboard outlook and a short "why". State the rule and apply it exactly:
+  - Red: status Ineligible, Low or Suspended, or under 8 members.
+  - Amber: under 13 members, or 40% or more below base.
+  - Green: everything else. A club with no scored year shows the outlook "New club".
+  The "why" is the club's next milestone or problem: "1 goal from Distinguished", "Goals met;
+  2 more members", "Down 57% on base", "Below this month's goal target".
+- **Action list**, ordered by deadline and then by impact, each with clubs named:
+  1. Club visits still needed in the open round, by area, with the due date.
+  2. Red clubs, and anything that threatens the paid-club count.
+  3. Officer training still needed in the open round, with the closing date.
+  4. Clubs closest to Distinguished: help them plan the quickest route.
+  5. New clubs without a Club Success Plan (`needs.club_success_plan`).
+  6. Small or shrinking clubs: check a Club Coach is assigned (`needs.club_coach`).
+  7. Clubs below this month's goal target (`below_month_target`) not already listed.
+- **Asks**: three numbers with deadlines from the top of the action list.
+- **Notes on data and method**: the snapshot date, what "members" and "base" mean, the club
+  Distinguished rule (5 goals plus 20 members or net growth of 3; recognised from April), the
+  triage rule, and any data hygiene flags.
 
 ## 3. Build the outputs
 
@@ -74,26 +101,38 @@ each dataset a connector call (`get_division`, or `get_division` with a loader t
 percentage, scorecard cell and list as a calc. Load the fonts with `@import` inside `<style>`
 (`<link>` tags are dropped there) and mix the brand colours with the foreground colour for text
 so it reads in dark mode. If that type isn't available, write a single HTML page with the
-figures as of the report date and publish it with the Artifact tool. Order: Distinguished progress, since
-last month, area scorecard, clubs needing help, bright spots, Area Director actions, data notes.
-Load the `dataviz` skill before drawing charts. Good charts: progress bars to each Distinguished
-level; visits per area against the 75% line.
+figures as of the report date and publish it with the Artifact tool. Order: summary, Distinguished Division
+scorecard, since last month, area breakdown, membership gap by club, full club health triage
+table, action list, notes on data and method.
+Load the `dataviz` skill before drawing charts. Good charts: the membership-gap diverging bars;
+visits per area against the 75% line.
 
 ### Slide deck
 
-Start from the Artifact **Slides** type, 16:9, titled "Division <X> update – <Month YYYY>".
-At most 8 slides:
+Start from the Artifact **Slides** type, 16:9, titled "Division <X> update – <Month YYYY>",
+in the report style below. Nine slides, no closing "Questions?" slide:
 
-1. Title: district, division, month, "Data as of <date>".
-2. Distinguished Division progress.
-3. Since last month.
-4. Area scorecard.
-5. Clubs needing help.
-6. Bright spots: recognise people and clubs by name.
-7. Area Director actions with dates.
-8. Asks of the division council.
+1. **Cover**: eyebrow, "Division <X> Report", "Prepared for the Division <X> Director",
+   "by [Name, role]" placeholder, programme year, "data as of", tagline.
+2. **Division <X> | performance snapshot**: 3×2 stat grid (paid clubs, members, DCP goals,
+   educational awards, visits, round 2 training), each with its change since last month, and a
+   "Division signal:" line.
+3. **Summary**: the four labelled lines as cards (On course · Closest next · Still at risk ·
+   Due this month).
+4. **Distinguished Division scorecard**: the table, with the paid-club margin in the signal line.
+5. **Area breakdown**: the table, the traffic light as a coloured word in the last column.
+6. **Membership gap by club**: a diverging bar chart of paid members minus base, one row per
+   club with its area, the largest shortfalls in True Maroon and the rest in Cool Gray, gains in
+   Loyal Blue. Title states the finding ("Four clubs hold 50 of the 62-member gap").
+7. **Club health triage**: the Red and Amber clubs, then the clubs closest to Distinguished,
+   as one table; say how many Green clubs are left out. The full triage table goes in the speaker
+   notes (and the page, if one is made).
+8. **Action list for this month**: the ordered list as checkbox lines (☐ is fine on a slide;
+   use `<x-icon name="Check">` if the font lacks it), each with clubs and dates.
+9. **Three asks**: three big numbers with deadlines and a "Division signal:".
 
-Speaker notes carry the detail; slides carry one idea each.
+Speaker notes carry the detail, the full triage table and the notes on data and method; slides
+carry one idea each.
 
 ### Without the Artifact tool
 
