@@ -122,7 +122,7 @@ Lead with what the District Director must act on, and who on the team owns it.
   the Region Advisor check-in the presenter gave. Move items between columns as the month changes.
 - **Distinguished District scorecard**, a table: rows Net club growth, Membership payments (or
   proxy), Distinguished clubs, Club retention (90% of the paid base); columns Now, Distinguished,
-  Select, President's, and Owner (CGD, PQD). Say which measure is furthest from the first level.
+  Select, President's, Smedley (all four levels, always), and Owner (CGD, PQD). Say which measure is furthest from the first level.
 - **Divisions at a glance**, one row per lettered division: paid clubs against its Distinguished
   Division goal, potentially Distinguished clubs against its Distinguished clubs goal, members as % of base,
   areas that met the open visit round, round 1 training %, and the biggest gap in words.
