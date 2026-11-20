@@ -1,20 +1,21 @@
 ---
 name: tm-district-report
-description: Build a Toastmasters-branded District Director report (web page plus slide deck) from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for a district report, district update, or district council slides.
+description: Build a Toastmasters-branded District Director report (slide deck by default, web page on request) from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for a district report, district update, or district council slides.
 ---
 
 # Toastmasters District Director report
 
 Produce a branded report on one district's performance for the District Director and the
-district council: a shareable web page, plus a short slide deck of the same numbers for
-presenting. All data comes from the Toastmasters dashboard MCP server: the "My Toastmasters Dashboards"
+district council: a slide deck for presenting, plus a shareable web page of the same
+numbers when the user asks for one. All data comes from the Toastmasters dashboard MCP server: the "My Toastmasters Dashboards"
 connector on claude.ai, or the `toastmasters` server this plugin installs in Claude Code.
 
 ## Inputs
 
 - **District** (required). If the user didn't name one, ask. "U" is undistricted, "F" the Founders District.
 - **Fiscal year** (optional, `YYYY-YYYY`). Default is the latest one.
-- **Format** (optional). Default: both the page and the deck. Make only one if the user asks.
+- **Format** (optional). Default: the slide deck only. Make the web page as well only if the user
+  asks for one.
 
 ## 1. Gather the data
 
@@ -73,7 +74,7 @@ Lead with what the District Director must act on, not with every number.
 
 ## 3. Build the outputs
 
-### Web page
+### Web page (only when asked)
 
 Start from the Artifact **Data** type (quickstart with intent "other", or publish with its
 type_url) titled "District <N> report", and follow that type's own instructions. Make the
@@ -185,5 +186,5 @@ DCP goals, Distinguished, officer training, area visits) as in `toastmasters://g
 
 ## Finish
 
-Give the user the links to the page and deck, two or three sentences on the main story, and any
+Give the user the deck link (and the page link, if one was asked for), two or three sentences on the main story, and any
 data notes. Offer to make a division report (`tm-division-report`) for the weakest division.

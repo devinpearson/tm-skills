@@ -1,7 +1,7 @@
 {
   "name": "toastmasters-reports",
   "version": "0.1.0",
-  "description": "District and division reports (web page plus slide deck) and an interactive Area Director plan review, with Toastmasters branding.",
+  "description": "District, division and area report decks (web page on request) and an interactive Area Director plan review, with Toastmasters branding.",
   "author": {
     "name": "Devin Pearson"
   },

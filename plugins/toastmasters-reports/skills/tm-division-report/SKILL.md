@@ -1,12 +1,12 @@
 ---
 name: tm-division-report
-description: Build a Toastmasters-branded Division Director report (web page plus slide deck) with an area-by-area scorecard from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for a division report, division council update, or division slides.
+description: Build a Toastmasters-branded Division Director report (slide deck by default, web page on request) with an area-by-area scorecard from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for a division report, division council update, or division slides.
 ---
 
 # Toastmasters Division Director report
 
 Produce a branded report on one division for its Division Director and Area Directors: a
-shareable web page, plus a short slide deck for the division council meeting. All data comes
+slide deck for the division council meeting, plus a shareable web page when the user asks for one. All data comes
 from the Toastmasters dashboard MCP server: the "My Toastmasters Dashboards"
 connector on claude.ai, or the `toastmasters` server this plugin installs in Claude Code.
 
@@ -14,7 +14,8 @@ connector on claude.ai, or the `toastmasters` server this plugin installs in Cla
 
 - **District** and **division letter** (both required; ask for whichever is missing).
 - **Fiscal year** (optional, `YYYY-YYYY`). Default is the current one.
-- **Format** (optional). Default: both the page and the deck. Make only one if the user asks.
+- **Format** (optional). Default: the slide deck only. Make the web page as well only if the user
+  asks for one.
 
 ## 1. Gather the data
 
@@ -64,7 +65,7 @@ totals, percentages and rankings.
 
 ## 3. Build the outputs
 
-### Web page
+### Web page (only when asked)
 
 Start from the Artifact **Data** type (quickstart with intent "other", or publish with its
 type_url) titled "Division <X> report", and follow that type's own instructions. Make it live:
@@ -165,5 +166,5 @@ never shame a club or officer. Use the terms in `toastmasters://glossary`.
 
 ## Finish
 
-Give the links to the page and deck, two or three sentences on the main story, and data notes.
+Give the deck link (and the page link, if one was asked for), two or three sentences on the main story, and data notes.
 Offer to run `tm-grill-area-plan` with the Area Director of the area most at risk.
