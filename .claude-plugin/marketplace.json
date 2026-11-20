@@ -10,7 +10,7 @@
     {
       "name": "toastmasters-reports",
       "source": "./plugins/toastmasters-reports",
-      "description": "District, division and area report decks (web page on request) and an interactive Area Director plan review, with Toastmasters branding.",
+      "description": "District Director, Club Growth Director, Program Quality Director, division and area report decks (web page on request) and an interactive Area Director plan review, with Toastmasters branding.",
       "category": "productivity"
     }
   ]

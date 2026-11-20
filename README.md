@@ -13,9 +13,11 @@ their plans against the numbers.
 
 | Skill | Who it's for | What you get |
 | --- | --- | --- |
-| [`tm-district-report`](plugins/toastmasters-reports/skills/tm-district-report/SKILL.md) | District Director, district council | An 8-slide deck (page on request): headline numbers, last month's change, division league table, area visits, officer training, watch list, three asks. |
+| [`tm-district-report`](plugins/toastmasters-reports/skills/tm-district-report/SKILL.md) | District Director, district executive and council | A 9-slide deck (page on request): performance snapshot, Distinguished District scorecard with owners, divisions at a glance, leadership team KPIs, last month's change, watch list, actions by owner, three asks. |
 | [`tm-division-report`](plugins/toastmasters-reports/skills/tm-division-report/SKILL.md) | Division Director, Area Directors | A 9-slide deck (page on request): summary, Distinguished Division scorecard, area breakdown, membership gap by club, club health triage, action list, three asks. |
 | [`tm-area-report`](plugins/toastmasters-reports/skills/tm-area-report/SKILL.md) | Area Director, area council | An 8-slide deck (page on request): summary, Distinguished Area scorecard, club-by-club triage, visit planner, action list, three asks. |
+| [`tm-cgd-report`](plugins/toastmasters-reports/skills/tm-cgd-report/SKILL.md) | Club Growth Director, district executive | A 9-slide deck (page on request): club growth snapshot, Distinguished District growth scorecard, new clubs, clubs to rescue, Club Coach pipeline, retention by division, action list, three asks. |
+| [`tm-pqd-report`](plugins/toastmasters-reports/skills/tm-pqd-report/SKILL.md) | Program Quality Director, district executive | A 9-slide deck (page on request): program quality snapshot, Distinguished clubs pipeline, closest clubs, DCP goals and awards by division, officer training, club visits, action list, three asks. |
 | [`tm-grill-area-plan`](plugins/toastmasters-reports/skills/tm-grill-area-plan/SKILL.md) | Area Director (or a Division Director coaching one) | An interactive review: one question at a time, checked against the area's data, ending in a scorecard and dated commitments. |
 
 Try asking:

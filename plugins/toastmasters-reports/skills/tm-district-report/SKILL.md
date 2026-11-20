@@ -1,19 +1,60 @@
 ---
 name: tm-district-report
-description: Build a Toastmasters-branded District Director report (slide deck by default, web page on request) from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for a district report, district update, or district council slides.
+description: Build a Toastmasters-branded District Director report (slide deck by default, web page on request) on the Distinguished District Program and the district's overall health - net club growth, membership payments, Distinguished clubs, each division's progress, the leadership team's KPIs and the risks - from Toastmasters dashboard data (My Toastmasters Dashboards MCP server). Use for a district report, District Director update, district executive committee or district council slides.
 ---
 
 # Toastmasters District Director report
 
-Produce a branded report on one district's performance for the District Director and the
-district council: a slide deck for presenting, plus a shareable web page of the same
-numbers when the user asks for one. All data comes from the Toastmasters dashboard MCP server: the "My Toastmasters Dashboards"
-connector on claude.ai, or the `toastmasters` server this plugin installs in Claude Code.
+Produce a branded report on one district for its District Director (DD), to use with the district
+executive committee, the district council and the Region Advisor. Default output is a slide deck;
+add a web page when the user asks for one. All data comes from the Toastmasters dashboard MCP
+server: the "My Toastmasters Dashboards" connector on claude.ai, or the `toastmasters` server
+this plugin installs in Claude Code.
+
+## What the role is accountable for
+
+Toastmasters International makes the DD responsible for the district's day-to-day operations,
+finances and people: leading the district executive committee in developing and monitoring the
+District Success Plan, guiding the district toward Distinguished status, regular performance
+check-ins with the Region Advisor, regular leadership team meetings to review progress, and
+compliance with Toastmasters policies. The Club Growth Director (CGD) and Program Quality
+Director (PQD) each own part of the result; the DD owns the whole. Build the report around:
+
+| KPI | Measure | Owner on the team |
+| --- | --- | --- |
+| Distinguished District | Net club growth, membership payments growth and Distinguished clubs, all three together | DD, with CGD and PQD |
+| Division progress | Each division against its Distinguished Division goals | Division Directors |
+| Club growth | Paid clubs, members, new clubs, clubs to rescue | CGD (`tm-cgd-report`) |
+| Program quality | DCP goals, educational awards, officer training, club visits | PQD (`tm-pqd-report`) |
+| Momentum | Change since last month on every measure | DD |
+| Risks | Clubs to rescue, divisions furthest behind, data issues | DD |
+| Plan, budget, check-ins | District Success Plan, budget, Region Advisor | Manual input: not in the dashboard |
+
+### Distinguished District requirements
+
+From the District Recognition Program (Item 1490, Rev. 07/2026, for 2026–2027). Check the current
+Item 1490 if the program year isn't 2026–2027 and say which version you used.
+
+| Level | Net club growth | Membership payments growth | Distinguished clubs |
+| --- | --- | --- | --- |
+| Distinguished | 1% | 1% | 45% of club base |
+| Select Distinguished | 3% | 3% | 50% |
+| President's Distinguished | 5% | 5% | 55% |
+| Smedley Distinguished | 8% | 8% | 60% |
+
+A district needs all three measures at a level to earn it. Growth is against the club base and
+last year's payments; targets round up.
 
 ## Inputs
 
 - **District** (required). If the user didn't name one, ask. "U" is undistricted, "F" the Founders District.
 - **Fiscal year** (optional, `YYYY-YYYY`). Default is the latest one.
+- **Presenter** (optional). Without it, put "[District Director name]" on the cover.
+- **Membership payments** (optional): year-to-date payments and the payments base from the
+  Toastmasters District Performance report. Without them, use members against the member base
+  and label it "proxy".
+- **District Success Plan goals, budget status, Region Advisor check-in** (optional). The
+  dashboard doesn't have them; include them only when the user gives them.
 - **Format** (optional). Default: the slide deck only. Make the web page as well only if the user
   asks for one.
 
@@ -27,6 +68,9 @@ tell the user to connect the server (see the tm-skills README) rather than guess
 2. Read the resource `toastmasters://rules/dcp` so the wording of rules is right.
 3. `get_district(district, fiscal_year)`.
 4. `get_division(district, division)` for every real division in the district list (run them in parallel).
+5. `get_area` for every area, in parallel, when you need club-level detail (clubs on course,
+   clubs to rescue). In a client that can delegate, hand this to a helper that writes one row
+   per club to a file.
 
 Do not recompute rules the connector already evaluates (Distinguished status, visit state,
 month target, next actions). Use its `insights` as given; they are evaluated as of `insights.as_of`,
@@ -51,28 +95,51 @@ not today's date. Compute only simple totals, percentages and rankings, and say 
 
 ## 2. Work out the story
 
-Lead with what the District Director must act on, not with every number.
+Lead with what the District Director must act on, and who on the team owns it.
 
-- **Headline**: active members vs member base (%), paid clubs vs club base, Distinguished clubs,
-  DCP goals met, and the change since last fiscal month (`month_change.change`), including
-  clubs added and removed.
-- **Month target**: `insights.month_target` goals per club for this month, and the clubs on
-  track for it (sum of `insights.on_track_clubs` from each `get_division`). Name the divisions
-  furthest behind.
-- **Division league table**: per division, members vs base (%), paid clubs vs base, Distinguished
-  clubs vs the Distinguished Division goal (`goals.distinguished` from `get_division`),
-  officer training round 1 and round 2 %, and last month's member change. Sort by members vs base.
-- **Area visits**: from `insights.divisions[].areas[].visits`. List areas still short in the open
-  round, with visited / required and the due label. Count days left from `as_of`.
-- **Officer training**: round in progress, % trained per division (`officer_training`).
-- **Watch list**, by stated rules so it can be checked: members under 80% of base; 4 or more
-  paid clubs short of the Distinguished Division goal; round 1 training under 65%; suspended
-  clubs; areas with no visits in the open round; area member drops outside October and April
-  (from each division's `month_change.areas`, marked "check").
-- **Three asks**: three concrete actions for the next month, each naming a division or area
-  and a date. Base them on the data above, never on assumptions.
+- **Snapshot**: paid clubs against the club base, members against the member base (and change),
+  Distinguished clubs (on course) against the Distinguished District count, DCP goals (and
+  change), club visits in the open round, and officer training in the open round.
+- **Distinguished District scorecard**, a table: rows Net club growth, Membership payments (or
+  proxy), Distinguished clubs, Club retention (90% of the paid base); columns Now, Distinguished,
+  Select, President's, and Owner (CGD, PQD). Say which measure is furthest from the first level.
+- **Divisions at a glance**, one row per lettered division: paid clubs against its Distinguished
+  Division goal, clubs on course against its Distinguished clubs goal, members as % of base,
+  areas that met the open visit round, round 1 training %, and the biggest gap in words.
+- **Leadership team KPIs**, three columns: Club growth (CGD), Program quality (PQD), Divisions
+  and areas. Three or four figures each, with the deadline that matters most.
+- **Since last month**: the district's `month_change.change` and each division's, including clubs
+  added and removed. Skip in July and say why.
+- **Watch list**, by stated rules so it can be checked: clubs to rescue (Ineligible, Low or
+  Suspended) by division; divisions with members under 80% of base, 4 or more paid clubs short
+  of their goal, round 1 training under 65%, or areas with no visits in the open round; and data
+  issues (marked "check").
+- **Action list by owner**: DD, CGD, PQD and Division Directors, each line naming clubs, areas or
+  divisions and a date, ordered by deadline.
+- **Three asks**: three numbers with deadlines, each with its owner.
 
 ## 3. Build the outputs
+
+### Slide deck
+
+Start from the Artifact **Slides** type, 16:9, titled "District <N> update – <Month YYYY>", in the
+report style below. Nine slides, no closing "Questions?" slide:
+
+1. **Cover**: eyebrow "DISTRICT <n> · DISTRICT DIRECTOR", title "District <n> Report", subtitle
+   "Prepared for the District Director", presenter, programme year and "data as of", tagline.
+2. **District <n> | performance snapshot**: 3×2 stat grid and a "District signal:" line.
+3. **Distinguished District scorecard**: the table with owners.
+4. **Divisions at a glance**: the table.
+5. **Leadership team KPIs**: three columns.
+6. **Since last month**: district change in the caption, a table by division.
+7. **Watch list**: three columns (clubs, divisions, data).
+8. **Action list by owner**: checkbox lines.
+9. **Three asks**: three big numbers with owners and deadlines, and a "District signal:".
+
+Add a slide for the District Success Plan, budget or Region Advisor check-in only when the user
+gave that information. Put sources (roles guide, Item 1490 version), data notes and the
+not-official disclaimer in the speaker notes. The deck is a snapshot: write the figures as of
+the report date into the slides.
 
 ### Web page (only when asked)
 
@@ -91,35 +158,14 @@ page **live** rather than typing numbers in, so it stays current:
   inside its `<style>`, with fallbacks. Its colour tokens follow the reader's theme; mix Loyal
   Blue and True Maroon with the foreground colour (`color-mix`) for text, so it reads in dark mode.
 
-If that type isn't available, write a single HTML page with the figures as of the report date
-and publish it with the Artifact tool. Order: headline tiles, "since last month", three asks,
-division table, area visits, training, watch list, data notes. Load the `dataviz` skill before
-drawing charts. Good charts: members vs base bars per division; visits per area as chips
-(met / short / none).
-
-### Slide deck
-
-Start from the Artifact **Slides** type, 16:9, titled "District <N> update – <Month YYYY>".
-At most 8 slides:
-
-1. Title: district, month, "Data as of <date>".
-2. Headline numbers (4 tiles at most).
-3. Since last month.
-4. Division league table.
-5. Area visits: who still needs to visit, and by when.
-6. Officer training round in progress.
-7. Watch list.
-8. Three asks.
-
-Speaker notes carry the detail; slides carry one idea each. The deck is a snapshot: write the
-figures as of the report date into the slides, check them against the report page, and say
-"Data as of <date>" on every slide.
+If that type isn't available, write a single HTML page with the figures as of the report date,
+in the same order as the deck.
 
 ### Without the Artifact tool
 
-In clients with no Artifact tool (for example Claude Code in a terminal), write the page as one
-self-contained HTML file, and make the deck with a pptx skill if one is installed, otherwise as
-a self-contained HTML slide file. Apply the same branding and footer.
+In clients with no Artifact tool (for example Claude Code in a terminal), make the deck with a
+pptx skill if one is installed, otherwise as a self-contained HTML slide file, and write the
+page (if asked) as one self-contained HTML file. Apply the same branding and footer.
 
 ## Toastmasters branding
 
@@ -186,5 +232,7 @@ DCP goals, Distinguished, officer training, area visits) as in `toastmasters://g
 
 ## Finish
 
-Give the user the deck link (and the page link, if one was asked for), two or three sentences on the main story, and any
-data notes. Offer to make a division report (`tm-division-report`) for the weakest division.
+Give the user the deck link (and the page link, if one was asked for), two or three sentences on
+the main story, any placeholders to fill in, which figures are proxies, and data notes. Offer the
+role reports for the team (`tm-cgd-report`, `tm-pqd-report`) and a division report
+(`tm-division-report`) for the division furthest behind.
