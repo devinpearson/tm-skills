@@ -120,7 +120,7 @@ apply these tokens yourself.
 - **Logo**: don't draw, recreate, recolour or stretch the Toastmasters logo or any trademark.
   Use a logo only if the user supplies their district's approved logo file, unaltered, with
   clear space around it.
-- Footer on every page, and in the speaker notes and closing slide of a deck: "Data as of <date> · Source: Toastmasters daily reports via
+- Footer on every page, and in the speaker notes of every slide in a deck: "Data as of <date> · Source: Toastmasters daily reports via
   My Toastmasters Dashboards · Not an official Toastmasters International publication."
 
 ## Report style
@@ -151,7 +151,7 @@ it plain and data-first: white background, blue type, maroon numbers, no decorat
   a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
   YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
   right only if the user supplied one.
-- **Closing slide**: "Questions?" centred.
+- **No closing "Questions?" slide**: end on the asks slide.
 - **Speaker notes** carry the detail and the footer text (source, date, not-official
   disclaimer), so slides stay clean.
 - The **web page** uses the same pieces: header with the eyebrow, title and tagline, the stat

@@ -64,7 +64,7 @@ it plain and data-first: white background, blue type, maroon numbers, no decorat
   a light subtitle, a presenter placeholder ("[Presenter name]") the user replaces, "Programme year
   YYYY–YYYY · data as of <date>", and the tagline "Where Leaders Are Made". Place the logo on the
   right only if the user supplied one.
-- **Closing slide**: "Questions?" centred.
+- **No closing "Questions?" slide**: end on the asks slide.
 - **Speaker notes** carry the detail and the footer text (source, date, not-official
   disclaimer), so slides stay clean.
 - The **web page** uses the same pieces: header with the eyebrow, title and tagline, the stat
